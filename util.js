@@ -23,15 +23,15 @@ var util = {
      * @return {[type]}     [description]
      */
     cloneObject: function(obj) {
-        var resultObj = isArray(obj) ? [] : {}; //判断当前对象类型是数组还是对象
+        var resultObj = this.isArray(obj) ? [] : {}; //判断当前对象类型是数组还是对象
         for (var key in obj) {
             if (typeof obj[key] === 'object') {
                 //如果当前属性是对象，则递归调用函数
-                resultObj[key] = cloneObject(obj[key]);
-
+                resultObj[key] = this.cloneObject(obj[key]);
             } else if (typeof obj[key] === 'function') { //不复制function
                 continue;
             } else {
+                console.log(key);
                 resultObj[key] = obj[key]; //否则 为值类型，直接复制  
             }
         }
