@@ -1,9 +1,10 @@
-console.log('render start');
 
 require("./style.css");
 var util = require('./util.js');
 var blockStore = require('./blockStore.js');
 var event = require('./event.js');
+
+
 
 
 event.on('add_block', function() {
@@ -12,28 +13,22 @@ event.on('add_block', function() {
     if (!blockStore.noSpace()) {
         console.log('all block has been moved');
         blockStore.update();
+        console.log('score:',blockStore.score);
+        scoreDiv.innerHTML = blockStore.score;
         console.log(blockStore.items);
         blockStore.addRandomBlock();
     } else {
-        console.log('game over');
+       blockStore.confirmStart();
     }
 });
 
 
-blockStore.init();
-console.log(blockStore.items);
-//初始化新建两个 block
+var scoreDiv = util.$('#score');
+scoreDiv.innerHTML = 0;
 blockStore.setContainer('.block-container');
-blockStore.addRandomBlock(2, 0, 0);
-blockStore.addRandomBlock(2, 0, 1);
-blockStore.addRandomBlock(2, 1, 1);
-blockStore.addRandomBlock(4, 0, 2);
 
-// blockStore.addRandomBlock(2,7);
-
-
-
-
+// init the game
+blockStore.init();
 
 util.addEvent(document, 'keydown', function(e) {
     var dire = e.key,

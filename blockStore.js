@@ -27,7 +27,10 @@ var blockStore = {
 
     nextItems: new Array(4),
 
+    score: 0,
+
     init: function() {
+        this.score = 0;
         for (var i = 0; i < 4; i++) {
             this.items[i] = new Array(4);
             this.nextItems[i] = new Array(4);
@@ -40,8 +43,9 @@ var blockStore = {
             }
         }
 
-
-
+                for(var k = 0;k < 3;k++){
+            this.addRandomBlock();
+        }
     },
 
     nextItems: [],
@@ -172,8 +176,6 @@ var blockStore = {
     },
 
     update: function() {
-
-
         for (var i = 0; i < 4; i++) {
             for (var j = 0; j < 4; j++) {
                 if(!!this.items[i][j]){
@@ -184,7 +186,15 @@ var blockStore = {
                 if (!this.nextItems[i][j].value) {
                     continue;
                 } else {
+                    console.log('value:',this.nextItems[i][j].mergeable);
+                     if(!this.nextItems[i][j].mergeable){
+
+                        console.log('merge score :',this.nextItems[i][j].value);
+                        this.score += this.nextItems[i][j].value;
+                    }
+
                     this.addRandomBlock(this.nextItems[i][j].value, i, j);
+                   
                 }
                 this.nextItems[i][j].mergeable = true;
             }
@@ -409,6 +419,15 @@ var blockStore = {
             arrow: arrow,
             endPoint: endPoint,
         };
+    },
+
+    confirmStart:function(){
+        var r = confirm('game over, start again?');
+        if(r == true){
+            console.log('game restart');
+            this.init();
+            this.score = 0;
+        }
     }
 
 
